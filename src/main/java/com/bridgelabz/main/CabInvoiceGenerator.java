@@ -1,7 +1,6 @@
 package com.bridgelabz.main;
 
 public class CabInvoiceGenerator {
-
 	public final double COST_PER_KILOMETER = 10;
 	private final int COST_PER_MINUTE = 1;
 	private final int MINIMUM_FARE = 5;

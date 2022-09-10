@@ -26,5 +26,4 @@ public class InvoiceSummary {
 		else
 			return false;
 	}
-
 }

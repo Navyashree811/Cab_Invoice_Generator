@@ -1,14 +1,17 @@
 package com.bridgelabz.test;
 
+import java.util.Arrays;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.bridgelabz.main.CabInvoiceGenerator;
+import com.bridgelabz.main.InvoiceService;
 import com.bridgelabz.main.InvoiceSummary;
 import com.bridgelabz.main.Ride;
+import com.bridgelabz.main.RideRepository;
 
 public class CabInvoiceGeneratorTest {
-
 	@Test
 	public void givenDistanceAndTime_IfFareGreaterThanMinimumFare_ShouldReturnTotalFare() {
 		double distance = 10;
@@ -33,6 +36,19 @@ public class CabInvoiceGeneratorTest {
 	public void givenMultipleRides_ShouldReturnInvoiceSummary() {
 		Ride[] rides = { new Ride(7, 15), new Ride(2.3, 8), new Ride(0.8, 4) };
 		Assert.assertEquals(new InvoiceSummary(3, 128), new CabInvoiceGenerator().getInvoiceSummary(rides));
+	}
+
+	@Test
+	public void givenUserID_ShouldReturnUserInvoiceSummary() {
+		RideRepository[] repositoryList = {
+				new RideRepository(1, new Ride[] { new Ride(4, 8), new Ride(1.1, 3), new Ride(10, 16) }),
+				new RideRepository(2,
+						new Ride[] { new Ride(2, 4), new Ride(2.3, 5), new Ride(5, 9), new Ride(11, 18) }),
+				new RideRepository(3, new Ride[] { new Ride(8.5, 15), new Ride(6, 10), new Ride(0.8, 3) }) };
+		InvoiceService invoiceService = new InvoiceService(Arrays.asList(repositoryList));
+		InvoiceSummary invoiceSummary = invoiceService.getInvoice(2);
+		InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(4, 239);
+		Assert.assertEquals(expectedInvoiceSummary, invoiceSummary);
 	}
 
 }
